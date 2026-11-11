@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Practo for Animals – Prototype</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;600&display=swap">
+<style>
+:root{--teal:#0E5A52;--ink:#12231F;--amb:#F2A33A;--mint:#E3F3EC;--bg:#F6FBF8;--line:#CFE3DA}
+*{box-sizing:border-box}body{margin:0;font-family:Figtree,system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;margin:0;letter-spacing:-.02em}
+a{color:inherit}.w{max-width:1160px;margin:0 auto;padding:0 20px}
+.tabs{position:sticky;top:0;z-index:5;background:var(--ink);display:flex;gap:6px;padding:10px 12px;overflow-x:auto}
+.tabs a{color:#fff;text-decoration:none;padding:10px 16px;border-radius:999px;white-space:nowrap;font-weight:600}
+.tabs a.on{background:var(--amb);color:var(--ink)}
+.btn{display:inline-block;border:0;cursor:pointer;font:inherit;font-weight:600;padding:14px 22px;border-radius:999px;background:var(--amb);color:var(--ink);text-decoration:none;min-height:48px}
+.btn.o{background:transparent;border:2px solid currentColor}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.chip{border:1px solid var(--line);background:var(--mint);border-radius:999px;padding:10px 16px;font:inherit;cursor:pointer;min-height:44px}
+.chip.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.tag{display:inline-block;background:var(--mint);border-radius:999px;padding:3px 12px;font-size:14px;margin:0 6px 6px 0}
+input,select,textarea{font:inherit;padding:14px;border:1px solid #9DBFB3;border-radius:10px;width:100%;min-height:48px;background:#fff}
+label{display:block;font-weight:600;font-size:14px}
+.hero{background:var(--teal);color:#fff;padding:48px 0 64px}.dark{background:var(--ink)}
+.hero h1{font-size:clamp(34px,6vw,58px);line-height:1.05;max-width:760px}
+.search{margin-top:28px;background:#fff;color:var(--ink);border-radius:20px;padding:14px;display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));max-width:980px;align-items:end}
+section.v{display:none}section.v.on{display:block}
+.sec{padding-top:48px}.sec h2{font-size:32px;margin-bottom:18px}
+.nav{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding:16px 0}
+.nav a{margin-left:18px;text-decoration:none}
+.tile{cursor:pointer;text-align:left;font:inherit}.tile:hover{border-color:var(--teal)}
+.strip{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 14px}
+.sl{flex:none;width:300px;aspect-ratio:4/5;border-radius:16px;padding:26px;display:flex;flex-direction:column;justify-content:space-between;scroll-snap-align:start;border:1px solid var(--line);background:#fff}
+.sl .n{font:800 64px "Bricolage Grotesque",sans-serif;color:var(--amb);line-height:1}
+.sl h3{font-size:26px}
+dialog{border:0;border-radius:20px;max-width:440px;width:92%;padding:26px}dialog::backdrop{background:#0008}
+.ok{display:none;background:var(--mint);border-radius:16px;padding:20px;margin-top:12px}
+footer{padding:40px 0;color:#456;text-align:center;font-size:14px}
+</style></head><body>
+<div class="tabs"><a href="#home">1 · Animal care homepage</a><a href="#course">2 · AI course page</a><a href="#carousel">3 · Carousel &amp; workflow</a></div>
+
+<!-- 1 HOMEPAGE -->
+<section class="v" id="home">
+<div class="hero"><div class="w">
+<div class="nav"><h3 style="font-size:24px">Practo for Animals</h3><nav><a href="#results">Find a Vet</a><a href="#services">Explore Services</a><a href="#" data-d="correction">Submit a Correction</a><a class="btn" href="#" data-d="list" style="margin-left:18px">List Your Business</a></nav></div>
+<h1 style="margin-top:32px">Find the right care for your animal, near you.</h1>
+<p style="margin-top:14px;font-size:18px;max-width:560px">Vets, hospitals, boarding, diagnostics, ambulances and NGOs in one place.</p>
+<form class="search" id="sf"><div><label>Service<select id="sv"><option value="">All services</option><option>Vet clinic</option><option>Hospital</option><option>Boarding</option><option>Diagnostics</option><option>Ambulance</option><option>NGO</option></select></label></div>
+<div><label>Animal<select><option>Dog</option><option>Cat</option><option>Bird</option><option>Livestock</option><option>Exotic</option></select></label></div>
+<div><label>Location<input placeholder="Area or pincode"></label></div><button class="btn" type="submit">Find a Vet</button></form>
+<p style="margin-top:16px"><a href="#results" id="em" style="color:var(--amb);font-weight:600">Emergency? Show 24x7 hospitals and ambulances open now</a></p>
+</div></div>
+<div class="w sec" id="services"><h2>Explore services</h2><div class="grid" id="tiles"></div></div>
+<div class="w sec" id="results"><h2>Results <span id="cnt" style="font-size:18px;font-weight:400"></span></h2>
+<div id="chips" style="margin-bottom:14px"></div><div class="grid" id="list"></div>
+<p style="margin-top:12px;font-size:14px">Sample data for demonstration only.</p></div>
+<div class="w sec"><div style="background:var(--ink);color:#fff;border-radius:24px;padding:36px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px"><div><h2 style="margin:0;font-size:28px">Run a clinic, shelter or ambulance?</h2><p>Get listed free and keep your details accurate.</p></div><a class="btn" href="#" data-d="list">List Your Business</a></div></div>
+</section>
+
+<!-- 2 COURSE -->
+<section class="v" id="course">
+<div class="hero dark"><div class="w" style="display:grid;gap:30px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));align-items:center">
+<div><h1>Learn AI by building things you can show.</h1><p style="margin:16px 0 26px;font-size:18px">Practical AI and digital-skills programmes for students and young professionals. Live projects, a portfolio at the end.</p><a class="btn" href="#form">Reserve your seat</a> <a class="btn o" href="#mods" style="color:#fff">Download syllabus</a></div>
+<div style="background:var(--teal);border-radius:24px;padding:26px"><p>Sample project: an AI assistant you build in week 3</p><div class="card" style="margin-top:14px;color:var(--ink)"><p><b>You:</b> Summarise this report</p><p><b>Your bot:</b> Three key findings…</p></div></div></div></div>
+<div class="w sec"><h2>Why join</h2><div class="grid"><div class="card"><h3>Hands-on</h3><p>Every session ends with something built.</p></div><div class="card"><h3>Job-relevant</h3><p>Prompting, automation, content and no-code apps.</p></div><div class="card"><h3>Beginner friendly</h3><p>No coding background needed.</p></div></div></div>
+<div class="w sec" id="mods"><h2>Four modules</h2><div class="grid"><div class="card"><h3>1. AI foundations</h3><p>Prompting and research with AI tools.</p></div><div class="card"><h3>2. Content and design</h3><p>Write, design and publish faster.</p></div><div class="card"><h3>3. Automation</h3><p>Connect tools with Make or n8n.</p></div><div class="card"><h3>4. Build and launch</h3><p>Ship a site or app as your capstone.</p></div></div></div>
+<div class="w sec" id="form" style="padding-bottom:40px"><div style="background:var(--mint);border-radius:24px;padding:30px;display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))">
+<div><h2>Reserve your seat</h2><p>Next batch [DATE] · Fee [PRICE]. After you submit: instant confirmation, a counsellor call within [24 hours], then a payment link and WhatsApp group.</p><div class="ok" id="ok"><b>Thank you!</b> Journey: 1 confirmation email → 2 counsellor call → 3 payment link → 4 batch WhatsApp group.</div></div>
+<form id="lf" style="display:grid;gap:12px"><label>Name<input required></label><label>Email<input type="email" required></label><label>WhatsApp number<input type="tel" required pattern="[0-9+ ]{10,15}"></label><label>I am a<select><option>Student</option><option>Young professional</option></select></label><button class="btn">Reserve your seat</button></form></div></div>
+</section>
+
+<!-- 3 CAROUSEL -->
+<section class="v" id="carousel"><div class="w sec"><h2>Sample carousel: 5 signs of a good vet clinic</h2><p style="margin-bottom:12px">Swipe or scroll. Same layout exports to Instagram (4:5) and LinkedIn.</p>
+<div class="strip" id="strip"></div><button class="btn o" id="pv">Previous</button> <button class="btn" id="nx">Next slide</button></div>
+<div class="w sec"><h2>Workflow: raw idea to export in about 30 minutes</h2><div class="grid" id="wf"></div></div>
+<div class="w sec" style="padding-bottom:20px"><h2>Stack</h2><div class="card"><p><b>Claude / Perplexity:</b> research, structure, copy. <b>Canva Brand Kit + Bulk Create:</b> editable on-brand templates. <b>Make or n8n:</b> connects form, AI, Canva and scheduler. <b>Notion:</b> idea backlog and calendar. <b>Buffer:</b> scheduling to Instagram and LinkedIn. Human review before every export.</p></div></div>
+</section>
+
+<dialog id="dg"><form method="dialog"><h3 id="dt"></h3><p id="dp" style="margin:8px 0 14px"></p><label>Your email<input type="email"></label><div style="margin-top:14px;display:flex;gap:10px"><button class="btn">Submit</button><button class="btn o" value="x">Close</button></div></form></dialog>
+<footer>Prototype for the Product Development, Design &amp; AI Systems Intern assignment. Sample content only.</footer>
+
+<script>
+const P=[["Sample Paws Clinic","Vet clinic","Small-animal clinic · 1.2 km",["Open now","Verified","Home visit"]],
+["Sample City Animal Hospital","Hospital","Multi-specialty · ICU · 3.4 km",["Open now","24x7","Verified"]],
+["Sample Happy Stay Boarding","Boarding","Boarding and grooming · 2.1 km",["Open now","Verified"]],
+["Sample VetLab Diagnostics","Diagnostics","Lab, X-ray, ultrasound · 4.0 km",["Verified"]],
+["Sample Rescue Ambulance","Ambulance","Animal transport on call · 24x7",["Open now","24x7"]],
+["Sample Street Paws NGO","NGO","Rescue and adoption · 5.5 km",["Verified"]],
+["Sample Vet at Home","Vet clinic","Doorstep consultations · 2.8 km",["Home visit","Open now"]]];
+const F=["Open now","24x7","Home visit","Verified"];let svc="",on=new Set;
+const $=s=>document.querySelector(s);
+function draw(){const r=P.filter(p=>(!svc||p[1]==svc)&&[...on].every(f=>p[3].includes(f)));
+$("#cnt").textContent="("+r.length+")";
+$("#list").innerHTML=r.map(p=>`<div class="card"><h3>${p[0]}</h3><p>${p[2]}</p><p style="margin:8px 0">${p[3].map(t=>`<span class="tag">${t}</span>`).join("")}</p><a class="btn" href="tel:">Call</a> <a class="btn o" href="#" onclick="return false">Directions</a><p style="margin-top:8px"><a href="#" data-d="correction">Submit a correction</a></p></div>`).join("")||"<p>No matches. Try fewer filters.</p>";
+$("#chips").innerHTML=F.map(f=>`<button class="chip ${on.has(f)?"on":""}" data-f="${f}">${f}</button>`).join(" ")+(svc?` <button class="chip on" data-f="">${svc} ✕</button>`:"");}
+$("#tiles").innerHTML=[["Vet clinic","General care, vaccines"],["Hospital","Surgery, ICU, emergency"],["Boarding","Stays, grooming, day care"],["Diagnostics","Labs, X-ray, ultrasound"],["Ambulance","Animal transport"],["NGO","Rescue and adoption"]].map(t=>`<button class="card tile" data-s="${t[0]}"><h3>${t[0]}</h3><p>${t[1]}</p></button>`).join("");
+document.addEventListener("click",e=>{const t=e.target.closest("[data-f],[data-s],[data-d]");if(!t)return;
+if(t.dataset.s!==undefined){svc=t.dataset.s;draw();$("#results").scrollIntoView({behavior:"smooth"})}
+else if(t.dataset.f!==undefined){if(t.dataset.f==="")svc="";else on.has(t.dataset.f)?on.delete(t.dataset.f):on.add(t.dataset.f);draw()}
+else if(t.dataset.d){e.preventDefault();const c=t.dataset.d=="list";$("#dt").textContent=c?"List your business":"Submit a correction";$("#dp").textContent=c?"Free listing. We verify details before publishing.":"Tell us what is wrong and we will check it.";$("#dg").showModal()}});
+$("#sf").onsubmit=e=>{e.preventDefault();svc=$("#sv").value;draw();$("#results").scrollIntoView({behavior:"smooth"})};
+$("#em").onclick=()=>{svc="";on=new Set(["24x7"]);draw()};
+$("#lf").onsubmit=e=>{e.preventDefault();$("#ok").style.display="block";e.target.reset()};
+const S=[["Swipe","5 signs of a good vet clinic","","#0E5A52","#fff"],["1","Clear emergency plan","They tell you who to call after hours.","#fff","#12231F"],["2","Upfront fees","You get an estimate before treatment starts.","#fff","#12231F"],["3","Visible credentials","Vet names and registrations are easy to find.","#fff","#12231F"],["4","Patient answers","They explain the diagnosis in plain words.","#fff","#12231F"],["Next","Find a vet you can trust","Search verified clinics on Practo for Animals.","#12231F","#fff"]];
+$("#strip").innerHTML=S.map(s=>`<div class="sl" style="background:${s[3]};color:${s[4]}"><div class="n" style="${/\d/.test(s[0])?"":"font-size:16px"}">${s[0]}</div><div><h3>${s[1]}</h3><p style="margin-top:8px">${s[2]}</p></div></div>`).join("");
+$("#nx").onclick=()=>$("#strip").scrollBy({left:316,behavior:"smooth"});$("#pv").onclick=()=>$("#strip").scrollBy({left:-316,behavior:"smooth"});
+$("#wf").innerHTML=[["1 Idea","Founder enters a raw idea in a Notion or Tally form."],["2 Research","Claude or Perplexity researches and structures it."],["3 Copy","Claude writes 3 headlines and slide copy in the brand voice."],["4 Design","Make/n8n pushes copy into a Canva Brand Template."],["5 Review","Founder edits in Canva, approves and exports."],["6 Publish","Buffer schedules to Instagram and LinkedIn."]].map(w=>`<div class="card"><h3>${w[0]}</h3><p>${w[1]}</p></div>`).join("");
+function route(){const h=(location.hash||"#home").slice(1);const id=["home","course","carousel"].includes(h)?h:"home";
+document.querySelectorAll(".v").forEach(v=>v.classList.toggle("on",v.id==id));
+document.querySelectorAll(".tabs a").forEach(a=>a.classList.toggle("on",a.hash=="#"+id));
+if(id!=h&&!["results","services","form","mods"].includes(h))return;if(["results","services","form","mods"].includes(h)){const home=["results","services"].includes(h);document.querySelectorAll(".v").forEach(v=>v.classList.toggle("on",v.id==(home?"home":"course")));document.querySelectorAll(".tabs a").forEach(a=>a.classList.toggle("on",a.hash==(home?"#home":"#course")));document.getElementById(h).scrollIntoView()}}
+addEventListener("hashchange",route);draw();route();
+</script></body></html>
